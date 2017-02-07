@@ -1,4 +1,5 @@
-# Self Check
+# https://interactivepython.org/runestone/static/pythonds/Introduction/DefiningFunctions.html
+#  Self Check
 # Here’s a self check that really covers everything so far. You may have heard of the infinite monkey theorem? The theorem states that a monkey hitting keys at random on a typewriter keyboard for an infinite amount of time will almost surely type a given text, such as the complete works of William Shakespeare. Well, suppose we replace a monkey with a Python function. How long do you think it would take for a Python function to generate just one sentence of Shakespeare? The sentence we’ll shoot for is: “methinks it is like a weasel”
 #
 # You’re not going to want to run this one in the browser, so fire up your favorite Python IDE. The way we’ll simulate this is to write a function that generates a string that is 27 characters long by choosing random letters from the 26 letters in the alphabet plus the space. We’ll write another function that will score each generated string by comparing the randomly generated string to the goal.
@@ -16,7 +17,6 @@ def generate_sentence(n):
     sentence = ""
     chars = list(string.ascii_lowercase)
     chars.append(' ')
-
     for i in range(n):
         sentence += random.choice(chars)
 
@@ -25,16 +25,27 @@ def generate_sentence(n):
 
 def calculate_score(originalSentence):
     generatedSentence = generate_sentence(4)
-    print("Generated Sentence: "+generatedSentence)
-    return SequenceMatcher(None, originalSentence, generatedSentence).ratio()
+    score = SequenceMatcher(None, originalSentence, generatedSentence).ratio()
+    results = {'score': score, 'generatedSentence': generatedSentence}
+    return results
 
 def get_match():
     originalSentence = "test"
     print("Original Sentence: "+originalSentence)
     score = 0.0
+    bestScore = 0.0
+    i = 1
     while score < 1:
-        score = calculate_score(originalSentence)
-        print("Match Score: "+str(score))
-    print("Match found")
+        results = calculate_score(originalSentence)
+        score = results['score']
+        if score > bestScore:
+            bestScore = score
+            bestMatch = results['generatedSentence']
+        if (i % 1000) == 0:
+            print(str(i)+". try, best string so far: "+bestMatch+", match score: "+str(bestScore))
+        i += 1
+
+    print("Match found in "+str(i)+". try")
+    # Match found in 478603. try
 
 get_match()
