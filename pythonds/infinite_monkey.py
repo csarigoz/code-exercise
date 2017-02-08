@@ -51,7 +51,7 @@ def get_match(originalSentence):
             bestScore = score
             bestMatch = list(results['generatedSentence'])
         if (i % 1000) == 0:
-            print(str(i)+". try, best string so far: "+str(bestMatch)+", match score: "+str(bestScore))
+            print(str(i)+". try, best string so far: "+(''.join(bestMatch))+", match score: "+str(bestScore))
         i += 1
 
     print("Match found in "+str(i)+". try")
