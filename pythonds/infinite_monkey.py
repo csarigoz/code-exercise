@@ -21,7 +21,6 @@ def generate_sentence(n, matchedChars, bestMatch):
             bestMatch[i] = random.choice(chars)
             break
     sentence = ''.join(bestMatch)
-    print(sentence)
     return sentence
 
 
@@ -56,7 +55,7 @@ def get_match(originalSentence):
         i += 1
 
     print("Match found in "+str(i)+". try")
-    # Match found in 34. try
+    # Match found in 623. try
 
-originalSentence = "test"
+originalSentence = "methinks it is like a weasel"
 get_match(originalSentence)
