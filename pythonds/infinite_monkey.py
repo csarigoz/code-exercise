@@ -11,41 +11,52 @@
 
 import string
 import random
-from difflib import SequenceMatcher
 
-def generate_sentence(n):
-    sentence = ""
-    chars = list(string.ascii_lowercase)
-    chars.append(' ')
+chars = list(string.ascii_lowercase)
+chars.append(' ')
+
+def generate_sentence(n, matchedChars, bestMatch):
     for i in range(n):
-        sentence += random.choice(chars)
-
+        if matchedChars[i] == 0:
+            bestMatch[i] = random.choice(chars)
+            break
+    sentence = ''.join(bestMatch)
+    print(sentence)
     return sentence
 
 
-def calculate_score(originalSentence):
-    generatedSentence = generate_sentence(4)
-    score = SequenceMatcher(None, originalSentence, generatedSentence).ratio()
+def calculate_score(originalSentence, matchedChars, bestMatch):
+    generatedSentence = generate_sentence(len(originalSentence), matchedChars, bestMatch)
+    score = 0
+
+    for i in range(len(originalSentence)):
+        if generatedSentence[i] == originalSentence[i]:
+            score += 1
+            matchedChars[i] = 1
+
+    score = score / len(originalSentence)
     results = {'score': score, 'generatedSentence': generatedSentence}
     return results
 
-def get_match():
-    originalSentence = "test"
+def get_match(originalSentence):
     print("Original Sentence: "+originalSentence)
     score = 0.0
     bestScore = 0.0
     i = 1
+    bestMatch = [random.choice(chars)] * len(originalSentence)
+    matchedChars = [0] * len(originalSentence)
     while score < 1:
-        results = calculate_score(originalSentence)
+        results = calculate_score(originalSentence, matchedChars, bestMatch)
         score = results['score']
         if score > bestScore:
             bestScore = score
-            bestMatch = results['generatedSentence']
+            bestMatch = list(results['generatedSentence'])
         if (i % 1000) == 0:
-            print(str(i)+". try, best string so far: "+bestMatch+", match score: "+str(bestScore))
+            print(str(i)+". try, best string so far: "+str(bestMatch)+", match score: "+str(bestScore))
         i += 1
 
     print("Match found in "+str(i)+". try")
-    # Match found in 478603. try
+    # Match found in 34. try
 
-get_match()
+originalSentence = "test"
+get_match(originalSentence)
