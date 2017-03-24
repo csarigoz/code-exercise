@@ -158,3 +158,5 @@ def selfCheck():
 
 #main()
 selfCheck()
+
+## to learn more about super, I might want to read here: https://docs.python.org/3/library/functions.html#super
